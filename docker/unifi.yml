@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  unifi:
+    image: linuxserver/unifi-controller
+#    image: linuxserver/unifi-controller:5.14.23-ls76
+    container_name: unifi
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - MEM_LIMIT=512M
+    volumes:
+      - ${DOCK}/unifi:/config
+    ports:
+      - 3478:3478/udp
+      - 10001:10001/udp
+      - 8080:8080
+      - 8081:8081
+      - 9007:8443
+      - 8843:8843
+      - 8880:8880
+      - 6789:6789
+    restart: unless-stopped
+    networks:
+      - media
+
+networks:
+  media:
+    name: media_net

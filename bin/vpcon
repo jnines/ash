@@ -1,0 +1,12 @@
+#!/bin/bash
+
+vpc=$(/usr/bin/docker exec transmission-vpn bash -c "curl -s ifconfig.me")
+medusa=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9001/home/status)
+radarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9005/system/status)
+lidarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9012/system/status)
+
+if [[ -z $vpc ]] || [[ $medusa != "200" ]] || [[ $radarr != "200" ]] || [[ $lidarr != "200" ]]; then
+    /usr/bin/docker restart transmission-vpn radarr medusa jackett lidarr
+    /usr/bin/docker rm radarr medusa jackett lidarr && sleep 1 &&
+    /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
+fi

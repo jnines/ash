@@ -1,0 +1,291 @@
+version: "3.8"
+
+services:
+#
+  bazarr:
+    image: linuxserver/bazarr
+    container_name: bazarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK_SET=022
+    volumes:
+      - ${DOCK}/bazarr:/config
+      - ${MEDIA}/Movies:/movies
+      - ${MEDIA}/TV:/tv
+    ports:
+      - 9010:6767
+    restart: unless-stopped
+    networks:
+      - media
+
+#
+  gostatic:
+    image: pierrezemb/gostatic
+    ports:
+      - 9876:8043
+    volumes:
+      - ${DOCK}/gostatic:/srv/http
+    networks:
+      - media
+
+#
+  heimdall:
+    image: linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCK}/heimdall:/config
+    ports:
+      - 9000:80
+      - 9997:443
+    restart: unless-stopped
+    networks:
+      - media
+
+#
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    network_mode: service:transmission-vpn
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCK}/jacket:/config
+      - ${DL}/completed:/downloads
+#    ports:
+#      - 9008:9117
+    restart: unless-stopped
+    healthcheck:
+      test: curl --fail -s ${TSITE} || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 2
+
+#
+  jellyfin:
+    image: linuxserver/jellyfin
+    container_name: jellyfin
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK_SET=022
+    volumes:
+      - ${DOCK}/jellyfin:/config
+      - ${MEDIA}:/media
+      - ${DOCK}/jellyfin/trans:/transcode
+      - ${DOCK}/jellyfin/cache:/cache
+    ports:
+      - 9009:8096
+    restart: unless-stopped
+    networks:
+      - media
+
+#
+  lidarr:
+    image: linuxserver/lidarr
+    container_name: lidarr
+    network_mode: service:transmission-vpn
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK_SET=022 #optional
+    volumes:
+      - ${DOCK}/lidarr:/config
+      - ${MEDIA}/nMusic:/music
+      - ${DL}:/data
+#    ports:
+#      - 9012:8686
+    restart: unless-stopped
+    healthcheck:
+      test: curl --fail -s ${TSITE} || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 2
+
+#
+  medusa:
+    image: linuxserver/medusa
+    container_name: medusa
+    network_mode: service:transmission-vpn
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCK}/medusa:/config
+      - ${DL}/completed:/downloads
+      - ${MEDIA}/TV:/tv
+#      - /etc/localtime:/etc/localtime:ro
+#    ports:
+#      - 9001:8081
+    restart: unless-stopped
+    healthcheck:
+      test: curl --fail -s ${TSITE} || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 2
+
+#
+  monitorr:
+    image: monitorr/monitorr
+    container_name: monitorr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCK}/monitorr:/app
+    ports:
+      - 9014:80
+    restart: unless-stopped
+    networks:
+      - media
+
+#
+  motioneye:
+    image: ccrisan/motioneye:master-amd64
+    ports:
+      - 18081:8081
+      - 9011:8765
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ${DOCK}/motioneye:/etc/motioneye
+      - ${DATA}/MotionEye:/var/lib/motioneye
+    networks:
+      - media
+
+#
+  ombi:
+    image: linuxserver/ombi:development
+    container_name: ombi
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - BASE_URL=/ombi
+    volumes:
+      - ${DOCK}/ombi:/config
+    ports:
+      - 9002:3579
+    restart: unless-stopped
+    networks:
+      - media
+
+#
+  plexms:
+    container_name: plexms
+    restart: always
+    image: plexinc/pms-docker
+    volumes:
+      - ${DOCK}/plexms/config:/config
+      - /tmp:/transcode
+      - ${MEDIA}:/media
+      - ${DOCK}/plexms/shared:/shared
+    ports:
+      - 32400:32400/tcp
+      - 3005:3005/tcp
+      - 8324:8324/tcp
+      - 32469:32469/tcp
+      - 1900:1900/udp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+    environment:
+      - TZ=${TZ}
+      - HOSTNAME=Ash Plex
+      - PLEX_CLAIM=${PLEXC}
+      - PLEX_UID=${PUID}
+      - PLEX_GID=${PGID}
+      - ADVERTISE_IP=http://10.10.10.8:32400/
+    networks:
+      - media
+
+#
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    network_mode: service:transmission-vpn
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK_SET=022
+    volumes:
+      - ${DOCK}/radarr:/config
+      - ${MEDIA}/Movies:/movies
+      - ${DL}:/data
+#    ports:
+#      - 9005:7878
+    restart: unless-stopped
+    healthcheck:
+      test: curl --fail -s ${TSITE} || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 2
+
+#
+  transmission-vpn:
+    container_name: transmission-vpn
+    image: haugene/transmission-openvpn
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    restart: always
+    ports:
+    - 9006:9091
+    - 42000:42000
+    - 9008:9117 # Jacket
+    - 9005:7878 # Radarr
+    - 9001:8081 # Medusa
+    - 9012:8686 # Lidarr
+    dns:
+      # - 209.222.18.222
+      # - 209.222.18.218
+      - 1.1.1.1
+      - 1.0.0.1
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DOCK}/transmission-vpn/data:/data
+      - ${DOCK}/transmission-vpn/shared:/shared
+      - ${DL}:/data/watch
+      - ${DL}/completed:/data/completed
+      - ${DL}/incomplete:/data/incomplete
+    environment:
+      - DISABLE_PORT_UPDATER=yes
+      - OPENVPN_PROVIDER=PIA
+      - OPENVPN_USERNAME=${VPN_USERNAME}
+      - OPENVPN_PASSWORD=${VPN_PASSWORD}
+      - OPENVPN_CONFIG=${VPN_CONFIG}
+      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
+      - LOCAL_NETWORK=10.10.10.0/24
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=false
+      - TRANSMISSION_RPC_HOST_WHITELIST=127.0.0.1,10.10.10.*,10.10.20.*,10.10.30.*
+      - TRANSMISSION_RPC_PASSWORD=
+      - TRANSMISSION_RPC_USERNAME=
+#      - TRANSMISSION_UMASK=002
+      - TRANSMISSION_RATIO_LIMIT=1
+      - TRANSMISSION_RATIO_LIMIT_ENABLED=true
+    logging:
+        driver: json-file
+        options:
+            max-size: 10m
+    networks:
+      - media
+
+networks:
+  media:
+    name: media_net

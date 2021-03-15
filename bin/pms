@@ -1,0 +1,13 @@
+#!/bin/bash
+
+feed="http://10.10.10.8:32400/status/sessions"
+Green="$(tput setaf 2)"
+neerG="$(tput sgr0)"
+stream=$(wget $feed -O - 2>/dev/null | awk 'FNR==2 {print $2}')
+
+if [[ $stream == 'size="0">' ]]; then
+    streaming=$Green"Nothing Playing"$neerG
+else
+    streaming=$Green"Plex in Use"$neerG
+fi
+echo "$streaming"
