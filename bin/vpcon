@@ -7,6 +7,6 @@ lidarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9012/system/sta
 
 if [[ -z $vpc ]] || [[ $medusa != "200" ]] || [[ $radarr != "200" ]] || [[ $lidarr != "200" ]]; then
     /usr/bin/docker restart transmission-vpn radarr medusa jackett lidarr
-    /usr/bin/docker rm radarr medusa jackett lidarr && sleep 1 &&
+    /usr/bin/docker rm radarr medusa jackett lidarr ; sleep 1
     /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
 fi
