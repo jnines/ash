@@ -257,32 +257,23 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${DOCK}/transmission-vpn/data:/data
-      - ${DOCK}/transmission-vpn/shared:/shared
-      - ${DL}:/data/watch
-      - ${DL}/completed:/data/completed
-      - ${DL}/incomplete:/data/incomplete
     environment:
       - DISABLE_PORT_UPDATER=yes
       - OPENVPN_PROVIDER=PIA
       - OPENVPN_USERNAME=${VPN_USERNAME}
       - OPENVPN_PASSWORD=${VPN_PASSWORD}
       - OPENVPN_CONFIG=${VPN_CONFIG}
-      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
       - LOCAL_NETWORK=10.10.10.0/24
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - TRANSMISSION_RPC_AUTHENTICATION_REQUIRED=false
-      - TRANSMISSION_RPC_HOST_WHITELIST=127.0.0.1,10.10.10.*,10.10.20.*,10.10.30.*
-      - TRANSMISSION_RPC_PASSWORD=
-      - TRANSMISSION_RPC_USERNAME=
-#      - TRANSMISSION_UMASK=002
-      - TRANSMISSION_RATIO_LIMIT=1
-      - TRANSMISSION_RATIO_LIMIT_ENABLED=true
+      - HEALTH_CHECK_HOST="google.com"
     logging:
         driver: json-file
         options:
             max-size: 10m
+    sysctls:
+          - net.ipv6.conf.all.disable_ipv6=0
     networks:
       - media
 
