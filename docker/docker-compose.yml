@@ -257,6 +257,9 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${DOCK}/transmission-vpn/data:/data
+      - ${DL}:/data/watch
+      - ${DL}/completed:/data/completed
+      - ${DL}/incomplete:/data/incomplete
     environment:
       - DISABLE_PORT_UPDATER=yes
       - OPENVPN_PROVIDER=PIA
