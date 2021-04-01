@@ -1,12 +1,27 @@
 #!/bin/bash
 
-vpc=$(/usr/bin/docker exec transmission-vpn bash -c "curl -s ifconfig.me")
+vpnA=$(/usr/bin/docker exec gluetun sh -c "curl -s ifconfig.co")
+vpnB=$(/usr/bin/docker exec gluetun sh -c "curl -s ifconfig.io")
 medusa=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9001/home/status)
 radarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9005/system/status)
 lidarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9012/system/status)
+trans=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9006/transmission/web/\#cancel)
 
-if [[ -z $vpc ]] || [[ $medusa != "200" ]] || [[ $radarr != "200" ]] || [[ $lidarr != "200" ]]; then
-    /usr/bin/docker restart transmission-vpn radarr medusa jackett lidarr
-    /usr/bin/docker rm radarr medusa jackett lidarr ; sleep 1
+images=( "$medusa" "$radarr" "$lidarr" "$trans" )
+
+
+if [[ -z $vpnA ]] && [[ -z $vpnB ]]; then
+    /usr/bin/docker restart gluetun radarr medusa jackett lidarr transmission
+    /usr/bin/docker rm radarr medusa jackett lidarr transmission
+    sleep 1
     /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
 fi
+
+for i in "${images[@]}";
+do
+    if [ "$i" != "200" ]; then
+        /usr/bin/docker restart "$i"
+        /usr/bin/docker rm "$i" && sleep 1 &&
+        /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up .d
+    fi
+done

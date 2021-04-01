@@ -39,7 +39,7 @@ alias dockp='dc && yes | docker image prune && yes | docker container prune && y
 alias dcupdate='dc && docker-compose pull && docker-compose up -d && dockp'
 alias dcunifi='dc && docker-compose -f unifi.yml pull unifi && docker-compose -f unifi.yml up -d && dockp'
 alias dcres='dc && docker-compose down && dcupdate'
-alias dockrm='docker restart transmission-vpn radarr medusa jackett lidarr; docker rm radarr medusa jackett lidarr && sleep 3 ; dcup'
+alias dockrm='docker restart transmission-vpn radarr medusa jackett lidarr ; docker rm radarr medusa jackett lidarr ; sleep 3 ; dcup'
 
 # Get a list of contiainer
 function dockc() {
@@ -88,7 +88,7 @@ function dps() {
 
 # Check Transvpn ip
 function vpnip() {
-    docker exec -it transmission-vpn bash -c 'ipa=$(curl -s ifconfig.me) && echo $ipa'
+    docker exec -it gluetun sh -c 'ipa=$(curl -s ifconfig.io) && echo $ipa'
 }
 
 alias tv='cd /home/jason/Data/Media/TV'
