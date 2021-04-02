@@ -1,13 +1,13 @@
-#!/bin/bash
+#!/bin/bash -x
 
 vpnA=$(/usr/bin/docker exec gluetun sh -c "curl -s ifconfig.co")
 vpnB=$(/usr/bin/docker exec gluetun sh -c "curl -s ifconfig.io")
 medusa=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9001/home/status)
 radarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9005/system/status)
 lidarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9012/system/status)
-trans=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9006/transmission/web/\#cancel)
+transmission=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9006/transmission/web/\#cancel)
 
-images=( "$medusa" "$radarr" "$lidarr" "$trans" )
+#~ images=( "$medusa" "$radarr" "$lidarr" "$transmission" )
 
 
 if [[ -z $vpnA ]] && [[ -z $vpnB ]]; then
@@ -17,11 +17,14 @@ if [[ -z $vpnA ]] && [[ -z $vpnB ]]; then
     /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
 fi
 
-for i in "${images[@]}";
+images() {
+for i in "medusa" "radarr" "lidarr" "transmission";
 do
-    if [ "$i" != "200" ]; then
+    if [ "${!i}" != "200" ]; then
         /usr/bin/docker restart "$i"
-        /usr/bin/docker rm "$i" && sleep 1 &&
-        /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up .d
+        /usr/bin/docker rm "$i"
     fi
 done
+        /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
+}
+images
