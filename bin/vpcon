@@ -14,14 +14,13 @@ if [[ -z $vpnA ]] && [[ -z $vpnB ]]; then
     /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
 fi
 
-images() {
 for i in "medusa" "radarr" "lidarr" "transmission";
 do
     if [ "${!i}" != "200" ]; then
         /usr/bin/docker restart "$i"
-        /usr/bin/docker rm "$i"
+        /usr/bin/docker rm "$i" && sleep 1 &&
+        /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
     fi
 done
-        /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
-}
-images
+
+
