@@ -7,9 +7,6 @@ radarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9005/system/sta
 lidarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9012/system/status)
 transmission=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9006/transmission/web/\#cancel)
 
-#~ images=( "$medusa" "$radarr" "$lidarr" "$transmission" )
-
-
 if [[ -z $vpnA ]] && [[ -z $vpnB ]]; then
     /usr/bin/docker restart gluetun radarr medusa jackett lidarr transmission
     /usr/bin/docker rm radarr medusa jackett lidarr transmission
