@@ -9,3 +9,5 @@ cp -a "$unif" "$bunif" &&
 $dc start unifi &&
 $dc pull unifi &&
 $dc up -d
+
+/usr/bin/find /home/jason/Data/unifi_backups -mtime +30 -type f -delete
