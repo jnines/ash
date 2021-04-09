@@ -3,7 +3,7 @@ version: "3.8"
 services:
 #
   bazarr:
-    image: linuxserver/bazarr
+    image: ghcr.io/linuxserver/bazarr
     container_name: bazarr
     environment:
       - PUID=${PUID}
@@ -67,7 +67,7 @@ services:
 
 #
   heimdall:
-    image: linuxserver/heimdall
+    image: ghcr.io/linuxserver/heimdall
     container_name: heimdall
     environment:
       - PUID=${PUID}
@@ -84,7 +84,7 @@ services:
 
 #
   jackett:
-    image: linuxserver/jackett
+    image: ghcr.io/linuxserver/jackett
     container_name: jackett
     network_mode: service:gluetun
     environment:
@@ -103,7 +103,7 @@ services:
 
 #
   jellyfin:
-    image: linuxserver/jellyfin
+    image: ghcr.io/linuxserver/jellyfin
     container_name: jellyfin
     environment:
       - PUID=${PUID}
@@ -123,7 +123,7 @@ services:
 
 #
   lidarr:
-    image: linuxserver/lidarr
+    image: ghcr.io/linuxserver/lidarr
     container_name: lidarr
     network_mode: service:gluetun
     environment:
@@ -146,7 +146,7 @@ services:
 
 #
   medusa:
-    image: linuxserver/medusa
+    image: ghcr.io/linuxserver/medusa
     container_name: medusa
     network_mode: service:gluetun
     environment:
@@ -182,7 +182,7 @@ services:
 
 #
   ombi:
-    image: linuxserver/ombi:development
+    image: ghcr.io/linuxserver/ombi:development
     container_name: ombi
     environment:
       - PUID=${PUID}
@@ -229,7 +229,7 @@ services:
 
 #
   radarr:
-    image: linuxserver/radarr
+    image: ghcr.io/linuxserver/radarr
     container_name: radarr
     network_mode: service:gluetun
     environment:
