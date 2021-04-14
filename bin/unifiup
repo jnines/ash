@@ -5,9 +5,9 @@ bunif="/home/jason/Data/unifi_backups/unifi.$(date +"%m.%d.%y-%I.%M")"
 
 cd /home/jason/docker || exit
 $dc stop unifi &&
-cp -a "$unif" "$bunif" &&
+rsync -Ar "$unif" "$bunif" &&
 $dc start unifi &&
 $dc pull unifi &&
 $dc up -d
 
-/usr/bin/find /home/jason/Data/unifi_backups -mtime +30 -type f -delete
+/usr/bin/find /home/jason/Data/unifi_backups -mindepth 1 -mtime +30 -type d | xargs rm -r
