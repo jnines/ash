@@ -9,7 +9,7 @@ transmission=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9006/tran
 ytdl=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9011/youtube-dl)
 
 if [[ -z $vpnA ]] && [[ -z $vpnB ]]; then
-    /usr/bin/docker restart transmission gluetun radarr sonarr jackett lidarr
+    /usr/bin/docker restart gluetun transmission radarr sonarr jackett lidarr
     /usr/bin/docker rm transmission radarr sonarr jackett lidarr
     sleep 1
     /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
