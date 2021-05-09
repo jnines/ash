@@ -39,7 +39,7 @@ alias dockp='dc && yes | docker image prune && yes | docker container prune && y
 alias dcupdate='dc && docker-compose pull && docker-compose up -d && dockp'
 alias dcunifi='dc && docker-compose -f unifi.yml pull unifi && docker-compose -f unifi.yml up -d && dockp'
 alias dcres='dc && docker-compose down && dcupdate'
-alias dockrm='docker restart transmission radarr medusa jackett lidarr ; docker rm transmission radarr medusa jackett lidarr ; sleep 3 ; dcup'
+alias dockrm='docker restart transmission radarr sonarr jackett lidarr ytdl ; docker rm transmission radarr sonarr jackett lidarr ytdl ; sleep 3 ; dcup'
 
 # Get a list of contiainer
 function dockc() {

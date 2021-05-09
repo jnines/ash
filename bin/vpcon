@@ -2,19 +2,20 @@
 
 vpnA=$(/usr/bin/docker exec gluetun sh -c "curl -s ifconfig.co")
 vpnB=$(/usr/bin/docker exec gluetun sh -c "curl -s ifconfig.io")
-medusa=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9001/home/status)
+sonarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9003)
 radarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9005/system/status)
 lidarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9012/system/status)
 transmission=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9006/transmission/web/\#cancel)
+ytdl=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9011/youtube-dl)
 
 if [[ -z $vpnA ]] && [[ -z $vpnB ]]; then
-    /usr/bin/docker restart gluetun radarr medusa jackett lidarr transmission
-    /usr/bin/docker rm radarr medusa jackett lidarr transmission
+    /usr/bin/docker restart gluetun radarr sonarr jackett lidarr transmission
+    /usr/bin/docker rm radarr sonarr jackett lidarr transmission
     sleep 1
     /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
 fi
 
-for i in "medusa" "radarr" "lidarr" "transmission";
+for i in "sonarr" "radarr" "lidarr" "transmission" "ytdl";
 do
     if [ "${!i}" != "200" ]; then
         /usr/bin/docker restart "$i"
@@ -22,5 +23,3 @@ do
         /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
     fi
 done
-
-

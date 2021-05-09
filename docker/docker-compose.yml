@@ -44,11 +44,11 @@ services:
       - 8000:8000/tcp # Built-in HTTP control server
       - 9008:9117     # Jacket
       - 9005:7878     # Radarr
-      - 9001:8081     # Medusa
       - 9012:8686     # Lidarr
       - 9006:9091     # Trans web
       - 51413:51413   # Trans
       - 9011:7888     # Ytdl
+      - 9003:8989     # Sonarr
     volumes:
       - ${DOCK}/gluetun:/gluetun
     environment:
@@ -110,11 +110,6 @@ services:
       - ${DOCK}/jacket:/config
       - ${DL}/completed:/downloads
     restart: unless-stopped
-    healthcheck:
-      test: curl --fail -s ${TSITE} || exit 1
-      interval: 1m30s
-      timeout: 10s
-      retries: 2
 
 #
   jellyfin:
@@ -150,34 +145,8 @@ services:
       - ${DOCK}/lidarr:/config
       - ${MEDIA}/nMusic:/music
       - ${DL}:/downloads
-#    ports:
-#      - 9012:8686
     restart: unless-stopped
-    healthcheck:
-      test: curl --fail -s ${TSITE} || exit 1
-      interval: 1m30s
-      timeout: 10s
-      retries: 2
 
-#
-  medusa:
-    image: ghcr.io/linuxserver/medusa
-    container_name: medusa
-    network_mode: service:gluetun
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - ${DOCK}/medusa:/config
-      - ${DL}/completed:/downloads
-      - ${MEDIA}/TV:/tv
-    restart: unless-stopped
-    healthcheck:
-      test: curl --fail -s ${TSITE} || exit 1
-      interval: 1m30s
-      timeout: 10s
-      retries: 2
 
 #
   monitorr:
@@ -239,8 +208,10 @@ services:
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
       - ADVERTISE_IP=http://10.10.10.8:32400/
+    restart: unless-stopped
     networks:
       - media
+
 
 #
   radarr:
@@ -257,11 +228,21 @@ services:
       - ${MEDIA}/Movies:/movies
       - ${DL}:/downloads
     restart: unless-stopped
-    healthcheck:
-      test: curl --fail -s ${TSITE} || exit 1
-      interval: 1m30s
-      timeout: 10s
-      retries: 2
+
+#
+  sonarr:
+    image: ghcr.io/linuxserver/sonarr
+    container_name: sonarr
+    network_mode: service:gluetun
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCK}/sonarr:/config
+      - ${MEDIA}/TV:/tv
+      - ${DL}:/downloads
+    restart: unless-stopped
 
 #
   transmission:
