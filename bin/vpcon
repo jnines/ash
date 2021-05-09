@@ -9,13 +9,13 @@ transmission=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9006/tran
 ytdl=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9011/youtube-dl)
 
 if [[ -z $vpnA ]] && [[ -z $vpnB ]]; then
-    /usr/bin/docker restart gluetun radarr sonarr jackett lidarr transmission
-    /usr/bin/docker rm radarr sonarr jackett lidarr transmission
+    /usr/bin/docker restart transmission gluetun radarr sonarr jackett lidarr
+    /usr/bin/docker rm transmission radarr sonarr jackett lidarr
     sleep 1
     /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
 fi
 
-for i in "sonarr" "radarr" "lidarr" "transmission" "ytdl";
+for i in "transmission" "sonarr" "radarr" "lidarr" "ytdl";
 do
     if [ "${!i}" != "200" ]; then
         /usr/bin/docker restart "$i"
