@@ -7,6 +7,7 @@ radarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9005/system/sta
 lidarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9012/system/status)
 transmission=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9006/transmission/web/\#cancel)
 ytdl=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9011/youtube-dl)
+jackett=$(curl -o /dev/null -s -w '%{http_code}' 10.10.10.8:9008/UI/Dashboard)
 
 if [[ -z $vpnA ]] && [[ -z $vpnB ]]; then
     /usr/bin/docker restart gluetun transmission radarr sonarr jackett lidarr
@@ -15,9 +16,11 @@ if [[ -z $vpnA ]] && [[ -z $vpnB ]]; then
     /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
 fi
 
-for i in "transmission" "sonarr" "radarr" "lidarr" "ytdl";
+for i in "transmission" "sonarr" "radarr" "lidarr" "ytdl" "jackett";
 do
-    if [ "${!i}" != "200" ]; then
+    if [ "${!i}" == "200" ] || [ "${!i}" == "302" ]; then
+        :
+    else
         /usr/bin/docker restart "$i"
         /usr/bin/docker rm "$i" && sleep 1 &&
         /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
