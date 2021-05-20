@@ -10,4 +10,4 @@ $dc start unifi &&
 $dc pull unifi &&
 $dc up -d
 
-/usr/bin/find /home/jason/Data/unifi_backups -mindepth 1 -mtime +30 -type d | xargs rm -r
+/usr/bin/find /home/jason/Data/unifi_backups -maxdepth 1 -mtime +30 -type d | xargs rm -r
