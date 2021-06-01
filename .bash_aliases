@@ -86,7 +86,7 @@ function dps() {
     docker-compose $(find *.yml | sed -e 's/^/-f /') ps
 }
 
-# Check Transvpn ip
+# Check vpn ip
 function vpnip() {
     docker exec -it gluetun sh -c 'ipa=$(curl -s ifconfig.io) && echo $ipa'
 }
