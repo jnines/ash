@@ -7,7 +7,7 @@ radarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9005/system/sta
 lidarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9012/system/status)
 transmission=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9006/transmission/web/\#cancel)
 ytdl=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9011/youtube-dl)
-jackett=$(curl -o /dev/null -s -w '%{http_code}' 10.10.10.8:9008/UI/Dashboard)
+jackett=$(curl -o /dev/null -s -w '%{http_code}' ash.lan:9008/UI/Dashboard)
 
 if [[ -z $vpnA ]] && [[ -z $vpnB ]]; then
     /usr/bin/docker restart gluetun transmission radarr sonarr jackett lidarr

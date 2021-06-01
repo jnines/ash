@@ -62,6 +62,7 @@ services:
       - FIREWALL_OUTBOUND_SUBNETS=10.10.10.0/24,10.10.20.0/24,10.10.30.0/24
       - OPENVPN_CIPHER=aes-256-gcm
       - OPENVPN_AUTH=sha256
+      - PIA_ENCRYPTION=strong
     restart: always
     networks:
       - media
