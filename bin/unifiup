@@ -10,4 +10,9 @@ $dc start unifi &&
 $dc pull unifi &&
 $dc up -d
 
-/usr/bin/find /home/jason/Data/unifi_backups -maxdepth 1 -mtime +30 -type d | xargs rm -r
+mapfile -t oldB < <(/usr/bin/find /home/jason/Data/unifi_backups -maxdepth 1 -mtime +30 -type d)
+if [[ -n "${oldB[0]}" ]]; then
+    for i in "${oldB[@]}"; do
+        /bin/rm -r "${i}"
+    done
+fi
