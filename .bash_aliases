@@ -88,7 +88,7 @@ function dps() {
 
 # Check vpn ip
 function vpnip() {
-    docker exec -it gluetun sh -c 'ipa=$(curl -s ifconfig.io) && echo $ipa'
+   curl -s ash.lan:8000/v1/publicip/ip | sed -e 's/{"public_ip":"//' -e 's/"}//'
 }
 
 alias tv='cd /home/jason/Data/Media/TV'

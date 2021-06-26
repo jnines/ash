@@ -1,15 +1,15 @@
 #!/bin/bash
 
-vpnA=$(/usr/bin/docker exec gluetun sh -c "curl -s ifconfig.co")
-vpnB=$(/usr/bin/docker exec gluetun sh -c "curl -s ifconfig.io")
-sonarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9003)
-radarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9005/system/status)
-lidarr=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9012/system/status)
-transmission=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9006/transmission/web/\#cancel)
-ytdl=$(curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9011/youtube-dl)
-jackett=$(curl -o /dev/null -s -w '%{http_code}' ash.lan:9008/UI/Dashboard)
+vpnA=$(/usr/bin/curl -o /dev/null -s ash.lan:8000/v1/openvpn/status)
+vpnB=$(/usr/bin/curl -s ash.lan:8000/v1/publicip/ip | /bin/sed -e 's/{"public_ip":"//' -e 's/"}//')
+sonarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9003)
+radarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9005/system/status)
+lidarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9012/system/status)
+transmission=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9006/transmission/web/\#cancel)
+ytdl=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9011/youtube-dl)
+jackett=$(/usr/bin/curl -o /dev/null -s -w '%{http_code}' ash.lan:9008/UI/Dashboard)
 
-if [[ -z $vpnA ]] && [[ -z $vpnB ]]; then
+if [[ $vpnA == *"stopped"* ]] || [[ -z $vpnB ]]; then
     /usr/bin/docker restart gluetun transmission radarr sonarr jackett lidarr
     /usr/bin/docker rm transmission radarr sonarr jackett lidarr
     sleep 1
