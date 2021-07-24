@@ -2,9 +2,12 @@
 
 IFS=$'\n'
 stream=( $(curl -s http://10.10.10.8:32400/status/sessions | xmlstarlet sel -t -m "//MediaContainer" -v '@size' -nl -m "//Video" -v '@title' ) )
+vpnip=$(curl -s ash.lan:8000/v1/publicip/ip | sed -e 's/{"public_ip":"//' -e 's/\..*//' )
 
 if [[ "${stream[0]}" == "0" ]]; then
     echo "Nothing Playing"
+    echo "${vpnip}"
 else
     echo Playing : "${stream[1]}" | sed -e "s/\&#39;/\'/" -e "s/\&amp;/\&/"
+    echo "${vpnip}"
 fi
