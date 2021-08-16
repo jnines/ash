@@ -1,6 +1,6 @@
 alias v='nvim'
 alias sv='sudoedit'
-alias up='sudo apt-get update; sudo apt-get dist-upgrade -y && sudo apt-get autoremove && sudo apt-get autoclean'
+alias up='sudo apt-get update; sudo apt-get dist-upgrade -y && sudo apt-get autoremove -y && sudo apt-get autoclean -y'
 alias nano='nano -c'
 alias locate='locate -i'
 
