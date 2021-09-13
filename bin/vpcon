@@ -10,7 +10,7 @@ ytdl=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9011/you
 jackett=$(/usr/bin/curl -o /dev/null -s -w '%{http_code}' ash.lan:9008/UI/Dashboard)
 
 if [[ $vpnA == *"stopped"* ]] || [[ -z $vpnB ]]; then
-    /usr/bin/docker restart gluetun transmission radarr sonarr jackett lidarr ||
+    /usr/bin/docker restart gluetun transmission radarr sonarr jackett lidarr
     /usr/bin/docker rm transmission radarr sonarr jackett lidarr
     sleep 1
     /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
@@ -21,7 +21,7 @@ do
     if [ "${!i}" == "200" ] || [ "${!i}" == "302" ]; then
         :
     else
-        /usr/bin/docker restart "$i"
+        /usr/bin/docker restart "$i" ||
         /usr/bin/docker rm "$i" && sleep 1 &&
         /usr/local/bin/docker-compose -f /home/jason/docker/docker-compose.yml up -d
     fi
