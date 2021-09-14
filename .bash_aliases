@@ -4,7 +4,7 @@ alias up='sudo apt-get update; sudo apt-get dist-upgrade -y && sudo apt-get auto
 alias nano='nano -c'
 alias locate='locate -i'
 
-alias syncx='/home/jason/bin/syncexternal > /dev/null 2>&1 & disown'
+alias syncx='$HOME/bin/syncexternal > /dev/null 2>&1 & disown'
 
 alias basha='nvim ~/.bash_aliases'
 alias al='nvim ~/.bash_aliases'
@@ -37,7 +37,6 @@ alias dcup='dc && docker-compose up -d'
 alias dcdown='dc && docker-compose down'
 alias dockp='dc && yes | docker image prune && yes | docker container prune && yes | docker system prune && yes | docker volume prune'
 alias dcupdate='dc && docker-compose pull && docker-compose up -d && dockp && sleep 3 && vpcon'
-alias dcunifi='dc && docker-compose -f unifi.yml pull unifi && docker-compose -f unifi.yml up -d && dockp'
 alias dcres='dc && docker-compose down && dcupdate'
 alias dockrm='docker restart transmission radarr sonarr jackett lidarr ytdl ; docker rm transmission radarr sonarr jackett lidarr ytdl ; sleep 3 ; dcup'
 
@@ -91,5 +90,5 @@ function vpnip() {
    curl -s ash.lan:8000/v1/publicip/ip | sed -e 's/{"public_ip":"//' -e 's/"}//'
 }
 
-alias tv='cd /home/jason/Data/Media/TV'
-alias movies='cd /home/jason/Data/Media/Movies'
+alias tv='cd $HOME/Data/Media/TV'
+alias movies='cd $HOME/Data/Media/Movies'
