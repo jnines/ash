@@ -1,9 +1,0 @@
-#!/bin/bash
-. .var
-rSync=$(/usr/bin/rsync -a --exclude-from=/home/jason/ext_exclude.txt /home/jason/Data /media/external/)
-
-if $rSync; then
-    echo "Subject: Rsync Completed Successfully at $(date)" | sendmail -v "$email"
-else
-    echo "Subject: Rsync has Failed" | sendmail -v "$email"
-fi
