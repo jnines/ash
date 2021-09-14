@@ -6,6 +6,7 @@ sonarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9003)
 radarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9005/system/status)
 lidarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9012/system/status)
 transmission=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9006/transmission/web/\#cancel)
+ytdl=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9011/youtube-dl)
 jackett=$(/usr/bin/curl -o /dev/null -s -w '%{http_code}' ash.lan:9008/UI/Dashboard)
 
 if [[ $vpnA == *"stopped"* ]] || [[ -z $vpnB ]]; then
