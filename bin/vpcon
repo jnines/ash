@@ -12,7 +12,7 @@ if [[ $vpnA == *"stopped"* ]] || [[ -z $vpnB ]]; then
     /usr/bin/docker restart gluetun transmission radarr sonarr jackett lidarr
     /usr/bin/docker rm transmission radarr sonarr jackett lidarr
     sleep 1
-    /usr/local/bin/docker-compose -f "$HOME"/docker/docker-compose.yml up -d
+    /usr/bin/docker compose -f "$HOME"/docker/docker-compose.yml up -d
 fi
 
 for i in "transmission" "sonarr" "radarr" "lidarr" "jackett";
@@ -22,6 +22,6 @@ do
     else
         /usr/bin/docker restart "$i"
         /usr/bin/docker rm "$i" && sleep 1 &&
-        /usr/local/bin/docker-compose -f "$HOME"/docker/docker-compose.yml up -d
+        /usr/bin/docker compose -f "$HOME"/docker/docker-compose.yml up -d
     fi
 done

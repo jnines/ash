@@ -1,13 +1,13 @@
-alias v='nvim'
+alias v='lvim'
 alias sv='sudoedit'
 alias up='sudo apt-get update; sudo apt-get dist-upgrade -y && sudo apt-get autoremove -y && sudo apt-get autoclean -y'
 alias nano='nano -c'
 alias locate='locate -i'
-
+alias docker-compose='docker compose'
 alias syncx='$HOME/bin/syncexternal > /dev/null 2>&1 & disown'
 
-alias basha='nvim ~/.bash_aliases'
-alias al='nvim ~/.bash_aliases'
+alias basha='lvim ~/.bash_aliases'
+alias al='lvim ~/.bash_aliases'
 
 alias ls='ls -ah --color=auto --group-directories-first'
 alias ll='ls -alh --color=auto --group-directories-first'
