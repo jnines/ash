@@ -1,6 +1,7 @@
 alias v='lvim'
 alias sv='sudoedit'
 alias up='sudo apt-get update; sudo apt-get dist-upgrade -y && sudo apt-get autoremove -y && sudo apt-get autoclean -y'
+alias uv='cd $HOME/.local/share/lunarvim/lvim && git pull && lvim +LvimCacheReset +PackerUpdate'
 alias nano='nano -c'
 alias locate='locate -i'
 alias docker-compose='docker compose'
@@ -87,7 +88,7 @@ function dps() {
 
 # Check vpn ip
 function vpnip() {
-   curl -s ash.lan:8000/v1/publicip/ip | sed -e 's/{"public_ip":"//' -e 's/"}//'
+  curl -s ash.lan:8000/v1/publicip/ip | sed -e 's/{"public_ip":"//' -e 's/"\,"region.*}//' 
 }
 
 alias tv='cd $HOME/Data/Media/TV'
