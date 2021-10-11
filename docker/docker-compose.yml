@@ -8,6 +8,8 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
       - UMASK_SET=022
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:bazarr
+      - TP_THEME=plex
     volumes:
       - ${DOCK}/bazarr:/config
       - ${MEDIA}/Movies:/movies
@@ -105,6 +107,8 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
       - AUTO_UPDATE=true
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:jackett
+      - TP_THEME=plex
     volumes:
       - ${DOCK}/jacket:/config
       - ${DL}/completed:/downloads
@@ -140,6 +144,8 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
       - UMASK_SET=022 #optional
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:lidarr
+      - TP_THEME=plex
     volumes:
       - ${DOCK}/lidarr:/config
       - ${MEDIA}/nMusic:/music
@@ -235,6 +241,8 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
       - UMASK_SET=022
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:radarr
+      - TP_THEME=plex
     volumes:
       - ${DOCK}/radarr:/config
       - ${MEDIA}/Movies:/movies
@@ -250,6 +258,8 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:sonarr
+      - TP_THEME=plex
     volumes:
       - ${DOCK}/sonarr:/config
       - ${MEDIA}/TV:/tv
@@ -265,6 +275,8 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:transmission
+      - TP_THEME=plex
     volumes:
       - ${DOCK}/transmission:/config
       - ${DL}:/downloads
