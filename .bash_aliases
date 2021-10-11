@@ -67,7 +67,7 @@ function dockl() {
     if [ -z "$1" ]; then
         dockc
     else
-        docker-compose logs "$1"
+        docker-compose logs -f "$1"
     fi
 }
 

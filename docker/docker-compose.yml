@@ -181,6 +181,19 @@ services:
       - media
 
 #
+  php:
+    image: php:fpm
+    container_name: php
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCK}/nginx/web:/var/www/html
+    networks:
+      - media
+
+#
   plexms:
     container_name: plexms
     restart: always
@@ -257,6 +270,26 @@ services:
       - ${DL}:/downloads
       - ${DOCK}/transmission/watch:/watch
     restart: unless-stopped
+
+#
+  web:
+    image: nginx:latest
+    container_name: web
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ${DOCK}/nginx/etc/conf.d:/etc/nginx/conf.d
+      - ${DOCK}/nginx/web:/var/www/html
+      - ${DOCK}/nginx/etc/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - php
+    networks:
+      - media
 
 networks:
   media:
