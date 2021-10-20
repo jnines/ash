@@ -1,5 +1,5 @@
 #!/bin/bash
-dc="/usr/local/bin/docker-compose -f /home/jason/docker/unifi.yml"
+dc="/usr/bin/docker compose -f /home/jason/docker/unifi.yml"
 unif="/home/jason/docker/unifi"
 bunif="/home/jason/Data/unifi_backups/unifi.$(date +"%m.%d.%y-%I.%M")"
 
