@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/bin/bash -xe
 compose_version=$(curl https://api.github.com/repos/docker/compose/releases/latest | jq .name -r)
-dcFile='docker-compose-linux-amd64'
+dcFile='docker-compose-linux-x86_64'
 output='/usr/local/lib/docker/cli-plugins/docker-compose'
-/usr/bin/curl -L https://github.com/docker/compose/releases/download/"${compose_version}"/docker-compose-linux-amd64 -o /tmp/"${dcFile}"
-/usr/bin/curl -L https://github.com/docker/compose/releases/download/"${compose_version}"/docker-compose-linux-amd64.sha256 -o /tmp/"${dcFile}".sha256
+/usr/bin/curl -L https://github.com/docker/compose/releases/download/"${compose_version}"/"${dcFile}" -o /tmp/"${dcFile}"
+/usr/bin/curl -L https://github.com/docker/compose/releases/download/"${compose_version}"/"${dcFile}".sha256 -o /tmp/"${dcFile}".sha256
 cd /tmp || exit
 /usr/bin/sha256sum -c "${dcFile}".sha256
 sudo mv "${dcFile}" "${output}"
 sudo chmod +x $output
-"$(docker-compose version)"
+"$(docker compose version)"
