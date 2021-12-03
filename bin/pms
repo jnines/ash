@@ -13,4 +13,4 @@ else
 fi
 
 /usr/bin/docker compose version
-echo Docker Compose Newest "$(/bin/cat /home/jason/dcversion.txt)"
+echo "Docker Compose Newest $(/bin/cat /home/jason/dcversion.txt)"

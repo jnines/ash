@@ -3,7 +3,7 @@ export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:$HOME/.local/bin"
 
 
-export EDITOR='nvim'
+export EDITOR='lvim'
 
 export KEYTIMEOUT=1
 
