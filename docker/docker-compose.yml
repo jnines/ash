@@ -173,6 +173,7 @@ services:
   ombi:
     image: ghcr.io/linuxserver/ombi:development
     container_name: ombi
+    mem_limit: 1G
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
