@@ -118,15 +118,18 @@ services:
   jellyfin:
     image: ghcr.io/linuxserver/jellyfin
     container_name: jellyfin
+    runtime: nvidia
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
       - UMASK_SET=022
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
     volumes:
       - ${DOCK}/jellyfin:/config
       - ${MEDIA}:/media
-      - ${DOCK}/jellyfin/trans:/transcode
+      - /tmp/jf:/transcode
       - ${DOCK}/jellyfin/cache:/cache
     ports:
       - 9009:8096
@@ -205,6 +208,7 @@ services:
     container_name: plexms
     restart: always
     image: plexinc/pms-docker
+    runtime: nvidia
     volumes:
       - ${DOCK}/plexms/config:/config
       - /tmp:/transcode
@@ -227,6 +231,8 @@ services:
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
       - ADVERTISE_IP=http://10.10.10.8:32400/
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
     restart: unless-stopped
     networks:
       - media
