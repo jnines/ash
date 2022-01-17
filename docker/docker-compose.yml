@@ -47,7 +47,6 @@ services:
       - 9012:8686     # Lidarr
       - 9006:9091     # Trans web
       - 51413:51413   # Trans
-      - 9011:7888     # Ytdl
       - 9003:8989     # Sonarr
     volumes:
       - ${DOCK}/gluetun:/gluetun
