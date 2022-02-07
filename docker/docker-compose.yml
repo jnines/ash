@@ -1,7 +1,7 @@
 services:
 #
   bazarr:
-    image: ghcr.io/linuxserver/bazarr
+    image: ghcr.io/linuxserver/bazarr:development
     container_name: bazarr
     environment:
       - PUID=${PUID}
@@ -153,23 +153,6 @@ services:
       - ${MEDIA}/nMusic:/music
       - ${DL}:/downloads
     restart: unless-stopped
-
-
-#
-  monitorr:
-    image: monitorr/monitorr
-    container_name: monitorr
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - ${DOCK}/monitorr:/app
-    ports:
-      - 9014:80
-    restart: unless-stopped
-    networks:
-      - media
 
 #
   ombi:
