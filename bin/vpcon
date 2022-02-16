@@ -6,16 +6,16 @@ sonarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9003)
 radarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9005/system/status)
 lidarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9012/system/status)
 transmission=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9006/transmission/web/\#cancel)
-jackett=$(/usr/bin/curl -o /dev/null -s -w '%{http_code}' http://ash.lan:9008/UI/Dashboard)
+prowlarr=$(/usr/bin/curl -o /dev/null -s -w '%{http_code}\n' http://ash.lan:9004)
 
 if [[ $vpnA == *"stopped"* ]] || [[ -z $vpnB ]]; then
-    /usr/bin/docker restart gluetun transmission radarr sonarr jackett lidarr
-    /usr/bin/docker rm transmission radarr sonarr jackett lidarr
+    /usr/bin/docker restart gluetun transmission radarr sonarr prowlarr lidarr
+    /usr/bin/docker rm transmission radarr sonarr prowlarr lidarr
     sleep 1
     /usr/bin/docker compose -f "$HOME"/docker/docker-compose.yml up -d
 fi
 
-for i in "transmission" "sonarr" "radarr" "lidarr" "jackett";
+for i in "transmission" "sonarr" "radarr" "lidarr" "prowlarr";
 do
     if [ "${!i}" == "200" ] || [ "${!i}" == "302" ]; then
         :

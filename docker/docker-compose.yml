@@ -42,12 +42,12 @@ services:
       - 8388:8388/tcp # Shadowsocks
       - 8388:8388/udp # Shadowsocks
       - 8000:8000/tcp # Built-in HTTP control server
-      - 9008:9117     # Jacket
       - 9005:7878     # Radarr
       - 9012:8686     # Lidarr
       - 9006:9091     # Trans web
       - 51413:51413   # Trans
       - 9003:8989     # Sonarr
+      - 9004:9696     # Prowlarr
     volumes:
       - ${DOCK}/gluetun:/gluetun
     environment:
@@ -94,23 +94,6 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOCK}/ha:/config
-    restart: unless-stopped
-
-#
-  jackett:
-    image: ghcr.io/linuxserver/jackett
-    container_name: jackett
-    network_mode: service:gluetun
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - AUTO_UPDATE=true
-      - DOCKER_MODS=ghcr.io/gilbn/theme.park:jackett
-      - TP_THEME=plex
-    volumes:
-      - ${DOCK}/jacket:/config
-      - ${DL}/completed:/downloads
     restart: unless-stopped
 
 #
@@ -219,6 +202,20 @@ services:
     networks:
       - media
 
+#
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:develop
+    container_name: prowlarr
+    network_mode: service:gluetun
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - DOCKER_MODS=ghcr.io/gilbn/theme.park:prowlarr
+      - TP_THEME=plex
+    volumes:
+      - ${DOCK}/prowlarr:/config
+    restart: unless-stopped
 
 #
   radarr:
