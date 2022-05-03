@@ -7,7 +7,6 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - UMASK_SET=022
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:bazarr
       - TP_THEME=plex
     volumes:

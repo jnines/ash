@@ -1,7 +1,7 @@
 alias v='lvim'
 alias sv='sudoedit'
 alias up='sudo apt-get update; sudo apt-get dist-upgrade -y && sudo apt-get autoremove -y && sudo apt-get autoclean -y'
-alias uv='cd "$HOME"/.local/share/lunarvim/lvim && git pull && lvim +LvimUpdate +PackerSync +LvimCacheReset'
+alias uv='lvim +LvimUpdate +PackerSync +LvimCacheReset'
 alias nano='nano -c'
 alias locate='locate -i'
 alias docker-compose='docker compose'
