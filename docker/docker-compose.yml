@@ -203,6 +203,22 @@ services:
       - media
 
 #
+  podgrab:
+    image: akhilrex/podgrab
+    container_name: podgrab
+    environment:
+      - CHECK_FREQUENCY=240
+     # - PASSWORD=password     ## Uncomment to enable basic authentication, username = podgrab
+    volumes:
+      - ${DOCK}/podgrab:/config
+      - ${MEDIA}/Podcasts:/assets
+    ports:
+      - 9008:8080
+    restart: unless-stopped
+    networks:
+      - media
+
+#
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:develop
     container_name: prowlarr

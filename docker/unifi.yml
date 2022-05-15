@@ -1,6 +1,6 @@
 services:
   unifi:
-    image: ghcr.io/linuxserver/unifi-controller:latest
+    image: lscr.io/linuxserver/unifi-controller:latest
 #    image: linuxserver/unifi-controller:5.14.23-ls76
     container_name: unifi
     environment:
