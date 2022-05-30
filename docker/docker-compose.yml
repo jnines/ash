@@ -1,7 +1,7 @@
 services:
 #
   bazarr:
-    image: lscr.io/linuxserver/bazarr:development
+    image: ghcr.io/linuxserver/bazarr:development
     container_name: bazarr
     environment:
       - PUID=${PUID}
@@ -67,7 +67,7 @@ services:
 
 #
   heimdall:
-    image: lscr.io/linuxserver/heimdall
+    image: ghcr.io/linuxserver/heimdall
     container_name: heimdall
     environment:
       - PUID=${PUID}
@@ -84,7 +84,7 @@ services:
 
 #
   homeassistant:
-    image: lscr.io/linuxserver/homeassistant
+    image: ghcr.io/linuxserver/homeassistant
     container_name: ha
     network_mode: host
     environment:
@@ -97,7 +97,7 @@ services:
 
 #
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin
+    image: ghcr.io/linuxserver/jellyfin
     container_name: jellyfin
     runtime: nvidia
     environment:
@@ -120,7 +120,7 @@ services:
 
 #
   lidarr:
-    image: lscr.io/linuxserver/lidarr
+    image: ghcr.io/linuxserver/lidarr
     container_name: lidarr
     network_mode: service:gluetun
     environment:
@@ -138,7 +138,7 @@ services:
 
 #
   ombi:
-    image: lscr.io/linuxserver/ombi:development
+    image: ghcr.io/linuxserver/ombi:development
     container_name: ombi
     mem_limit: 1G
     environment:
@@ -208,6 +208,9 @@ services:
     container_name: podgrab
     environment:
       - CHECK_FREQUENCY=240
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
      # - PASSWORD=password     ## Uncomment to enable basic authentication, username = podgrab
     volumes:
       - ${DOCK}/podgrab:/config
@@ -220,7 +223,7 @@ services:
 
 #
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:develop
+    image: ghcr.io/linuxserver/prowlarr:develop
     container_name: prowlarr
     network_mode: service:gluetun
     environment:
@@ -235,7 +238,7 @@ services:
 
 #
   radarr:
-    image: lscr.io/linuxserver/radarr
+    image: ghcr.io/linuxserver/radarr
     container_name: radarr
     network_mode: service:gluetun
     environment:
@@ -253,7 +256,7 @@ services:
 
 #
   sonarr:
-    image: lscr.io/linuxserver/sonarr
+    image: ghcr.io/linuxserver/sonarr
     container_name: sonarr
     network_mode: service:gluetun
     environment:
@@ -270,7 +273,7 @@ services:
 
 #
   transmission:
-    image: lscr.io/linuxserver/transmission
+    image: ghcr.io/linuxserver/transmission
     container_name: transmission
     network_mode: service:gluetun
     environment:
