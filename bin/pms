@@ -1,14 +1,18 @@
 #!/bin/bash
-
-IFS=$'\n'
-stream=( $(curl -s http://10.10.10.8:32400/status/sessions | xmlstarlet sel -t -m "//MediaContainer" -v '@size' -nl -m "//Video" -v '@title' ) )
 vpnip=$(curl -s ash.lan:8000/v1/publicip/ip | sed -e 's/{"public_ip":"//' -e 's/\..*//' )
+stream=$(curl -s -H "accept: application/json"  http://10.10.10.8:32400/status/sessions)
+size=$(jq '.MediaContainer.size' <<< "$stream")
+sTitle=$(jq '.MediaContainer.Metadata[0].grandparentTitle' <<< "$stream")
+title=$(jq '.MediaContainer.Metadata[0].title' <<< "$stream")
 
-if [[ "${stream[0]}" == "0" ]]; then
+if [[ "${size}" == "0" ]]; then
     echo "Nothing Playing"
     echo "${vpnip}"
+elif [[ "${sTitle}" == null ]]; then
+    echo Playing : "${title}" | tr -d '"'
+    echo "${vpnip}"
 else
-    echo Playing : "${stream[1]}" | sed -e "s/\&#39;/\'/" -e "s/\&amp;/\&/"
+    echo Playing : "${sTitle}": "${title}" | tr -d '"'
     echo "${vpnip}"
 fi
 
