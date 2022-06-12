@@ -88,7 +88,7 @@ function dps() {
 
 # Check vpn ip
 function vpnip() {
-  curl -s ash.lan:8000/v1/publicip/ip | sed -e 's/{"public_ip":"//' -e 's/"\,"region.*}//' 
+  curl -s ash.lan:8000/v1/publicip/ip | sed -e 's/{"ip":"//' -e 's/"\,"region.*}//' 
 }
 
 alias tv='cd $HOME/Data/Media/TV'

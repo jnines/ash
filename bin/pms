@@ -1,5 +1,5 @@
 #!/bin/bash
-vpnip=$(curl -s ash.lan:8000/v1/publicip/ip | sed -e 's/{"public_ip":"//' -e 's/\..*//' )
+vpnip=$(curl -s ash.lan:8000/v1/publicip/ip | sed -e 's/{"ip":"//' -e 's/\..*//' )
 stream=$(curl -s -H "accept: application/json"  http://10.10.10.8:32400/status/sessions)
 size=$(jq '.MediaContainer.size' <<< "$stream")
 sTitle=$(jq '.MediaContainer.Metadata[0].grandparentTitle' <<< "$stream")
