@@ -52,15 +52,15 @@ services:
     environment:
       - OPENVPN_USER=${VPN_USERNAME}
       - OPENVPN_PASSWORD=${VPN_PASSWORD}
-      - VPNSP=private internet access
+      - VPN_SERVICE_PROVIDER=private internet access
       - TZ=${TZ}
-      - REGION=${VPN_CONFIG}
+      - SERVER_REGIONS=${VPN_CONFIG}
       - PUID=${PUID}
       - PGID=${PGID}
       - FIREWALL_OUTBOUND_SUBNETS=10.10.10.0/24,10.10.20.0/24,10.10.30.0/24
-      - OPENVPN_CIPHER=aes-256-gcm
+      - OPENVPN_CIPHERS=aes-256-gcm
       - OPENVPN_AUTH=sha256
-      - PIA_ENCRYPTION=strong
+      - PRIVATE_INTERNET_ACCESS_OPENVPN_ENCRYPTION_PRESET=strong
     restart: always
     networks:
       - media
