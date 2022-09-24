@@ -84,16 +84,18 @@ services:
 
 #
   homeassistant:
-    image: ghcr.io/linuxserver/homeassistant
-    container_name: ha
-    network_mode: host
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
     volumes:
-      - ${DOCK}/ha:/config
+      - ${DOCK}/homeassistant:/config
+      - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
+    privileged: true
+    network_mode: host
 
 #
   jellyfin:
