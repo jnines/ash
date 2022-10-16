@@ -8,6 +8,7 @@ services:
       - PGID=${PGID}
       - MEM_LIMIT=512M
       - MEM_STARTUP=512M
+      - TZ=${TZ}
     volumes:
       - ${DOCK}/unifi:/config
     ports:

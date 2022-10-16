@@ -83,21 +83,6 @@ services:
       - media
 
 #
-  homeassistant:
-    container_name: homeassistant
-    image: ghcr.io/home-assistant/home-assistant:stable
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - ${DOCK}/homeassistant:/config
-      - /etc/localtime:/etc/localtime:ro
-    restart: unless-stopped
-    privileged: true
-    network_mode: host
-
-#
   jellyfin:
     image: ghcr.io/linuxserver/jellyfin
     container_name: jellyfin
