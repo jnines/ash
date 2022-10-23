@@ -20,17 +20,6 @@ services:
       - media
 
 #
-  gostatic:
-    image: pierrezemb/gostatic
-    ports:
-      - 9876:8043
-    volumes:
-      - ${DOCK}/gostatic:/srv/http
-    restart: unless-stopped
-    networks:
-      - media
-
-#
   gluetun:
     image: qmcgaw/gluetun
     container_name: gluetun
@@ -127,6 +116,23 @@ services:
     restart: unless-stopped
 
 #
+  nginx:
+    image: lscr.io/linuxserver/nginx:latest
+    container_name: nginx
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCK}/nginx:/config
+    ports:
+      - 80:80
+      - 443:443
+    restart: unless-stopped
+    networks:
+      - media
+
+#
   ombi:
     image: ghcr.io/linuxserver/ombi:development
     container_name: ombi
@@ -140,20 +146,6 @@ services:
       - ${DOCK}/ombi:/config
     ports:
       - 9002:3579
-    restart: unless-stopped
-    networks:
-      - media
-
-#
-  php:
-    image: php:fpm
-    container_name: php
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - ${DOCK}/nginx/web:/var/www/html
     restart: unless-stopped
     networks:
       - media
@@ -289,27 +281,6 @@ services:
       gluetun:
         condition: service_healthy
     restart: unless-stopped
-
-#
-  web:
-    image: nginx:latest
-    container_name: web
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ${DOCK}/nginx/etc/conf.d:/etc/nginx/conf.d
-      - ${DOCK}/nginx/web:/var/www/html
-      - ${DOCK}/nginx/etc/nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - php
-    restart: unless-stopped
-    networks:
-      - media
 
 networks:
   media:

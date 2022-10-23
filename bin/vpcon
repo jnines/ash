@@ -2,11 +2,11 @@
 
 vpnA=$(/usr/bin/curl -o /dev/null -s ash.lan:8000/v1/openvpn/status)
 vpnB=$(/usr/bin/curl -s ash.lan:8000/v1/publicip/ip | /bin/sed -e 's/{"public_ip":"//' -e 's/"\,"region.*}//')
-sonarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9003)
-radarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9005/system/status)
-lidarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9012/system/status)
-transmission=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" http://ash.lan:9006/transmission/web/\#cancel)
-prowlarr=$(/usr/bin/curl -o /dev/null -s -w '%{http_code}\n' http://ash.lan:9004)
+sonarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" -k https://ash.lan/sonarr)
+radarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" -k https://ash.lan/radarr)
+lidarr=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" -k https://ash.lan/lidarr)
+transmission=$(/usr/bin/curl -o /dev/null -s -w "%{http_code}\n" -k https://ash.lan/transmission/web/\#cancel)
+prowlarr=$(/usr/bin/curl -o /dev/null -s -w '%{http_code}\n' -k https://ash.lan/prowlarr)
 
 if [[ $vpnA == *"stopped"* ]] || [[ -z $vpnB ]]; then
     /usr/bin/docker restart gluetun transmission radarr sonarr prowlarr lidarr
