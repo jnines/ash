@@ -1,0 +1,9 @@
+#!/bin/bash
+gluetunFile="$HOME/docker/gluetun/port/forwarded_port"
+envFile="$HOME/docker/.env"
+gluetunPort=$(cat "$gluetunFile")
+transmissionPort=$(awk -F "=" '/VPN_PORT/{print $2}' "$envFile")
+
+if [ "$gluetunPort" != "$transmissionPort" ]; then
+  sed -i "s/VPN_PORT=.*/VPN_PORT=${gluetunPort}/" "$envFile"
+fi

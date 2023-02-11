@@ -22,6 +22,7 @@ services:
 #
   gluetun:
     image: qmcgaw/gluetun
+    #~ image: qmcgaw/gluetun:1243
     container_name: gluetun
     cap_add:
       - NET_ADMIN
@@ -38,6 +39,7 @@ services:
       - 9004:9696     # Prowlarr
     volumes:
       - ${DOCK}/gluetun:/gluetun
+      - ${DOCK}/gluetun/port:/tmp/gluetun/
     environment:
       - OPENVPN_USER=${VPN_USERNAME}
       - OPENVPN_PASSWORD=${VPN_PASSWORD}
@@ -50,6 +52,7 @@ services:
       - OPENVPN_CIPHERS=aes-256-gcm
       - OPENVPN_AUTH=sha256
       - PRIVATE_INTERNET_ACCESS_OPENVPN_ENCRYPTION_PRESET=strong
+      - PRIVATE_INTERNET_ACCESS_VPN_PORT_FORWARDING=on
     restart: always
     networks:
       - media
@@ -273,6 +276,7 @@ services:
       - TZ=${TZ}
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:transmission
       - TP_THEME=plex
+      - PEERPORT=${VPN_PORT}
     volumes:
       - ${DOCK}/transmission:/config
       - ${DL}:/downloads
