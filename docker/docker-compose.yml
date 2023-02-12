@@ -267,7 +267,8 @@ services:
 
 #
   transmission:
-    image: ghcr.io/linuxserver/transmission
+    #~ image: ghcr.io/linuxserver/transmission
+    image: ghcr.io/linuxserver/transmission:version-3.00-r8
     container_name: transmission
     network_mode: service:gluetun
     environment:
