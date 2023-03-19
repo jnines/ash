@@ -39,7 +39,6 @@ alias dcdown='dc && docker-compose down'
 alias dockp='dc && yes | docker image prune && yes | docker container prune && yes | docker system prune && yes | docker volume prune'
 alias dcupdate='dc && docker-compose pull && docker-compose up -d --quiet-pull && dockp && sleep 3 && vpcon && rustdesk'
 alias dcres='dc && docker-compose down && dcupdate'
-alias dockrm='docker restart transmission radarr sonarr jackett lidarr ytdl ; docker rm transmission radarr sonarr jackett lidarr ytdl ; sleep 3 ; dcup'
 
 # Get a list of contiainer
 function dockc() {
