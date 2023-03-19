@@ -22,7 +22,7 @@ services:
 #
   gluetun:
     image: qmcgaw/gluetun
-    #~ image: qmcgaw/gluetun:1243
+    #~ image: qmcgaw/gluetun:v3.32.0
     container_name: gluetun
     cap_add:
       - NET_ADMIN
@@ -136,6 +136,21 @@ services:
       - media
 
 #
+  nodeservermon:
+    container_name: nodeservermon
+    image: ghcr.io/jnines/node-servermon
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - SELFSIGNEDCERT=self-signed.pem # Optional
+    ports:
+      - 8095:3500
+    volumes:
+      - ${DOCK}/nodeservermon:/config
+    restart: unless-stopped
+
+#
   ombi:
     image: ghcr.io/linuxserver/ombi:development
     container_name: ombi
@@ -156,7 +171,6 @@ services:
 #
   plexms:
     container_name: plexms
-    restart: always
     image: plexinc/pms-docker:latest
     runtime: nvidia
     volumes:
@@ -267,8 +281,8 @@ services:
 
 #
   transmission:
-    #~ image: ghcr.io/linuxserver/transmission
-    image: ghcr.io/linuxserver/transmission:version-3.00-r8
+    image: ghcr.io/linuxserver/transmission
+    #~ image: ghcr.io/linuxserver/transmission:version-3.00-r8
     container_name: transmission
     network_mode: service:gluetun
     environment:
