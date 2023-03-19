@@ -44,16 +44,14 @@ alias dockrm='docker restart transmission radarr sonarr jackett lidarr ytdl ; do
 # Get a list of contiainer
 function dockc() {
 containers=$(docker ps | awk '{if(NR>1) print $NF}')
-
     for container in $containers
     do
-    echo $container
+    echo "$container"
 done
 }
 
 # Docker bash
 function dockb() {
-       dc;
        if [ -z "$1" ]; then
         dockc
        else
@@ -61,6 +59,14 @@ function dockb() {
        fi
 }
 
+# Docker sh
+function docksh() {
+       if [ -z "$1" ]; then
+        dockc
+       else
+               docker exec -it "$1" sh
+       fi
+}
 # Docker logs
 function dockl() {
     dc;
