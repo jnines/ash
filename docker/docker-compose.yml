@@ -22,7 +22,6 @@ services:
 #
   gluetun:
     image: qmcgaw/gluetun
-    #~ image: qmcgaw/gluetun:v3.32.0
     container_name: gluetun
     cap_add:
       - NET_ADMIN
@@ -53,6 +52,7 @@ services:
       - OPENVPN_AUTH=sha256
       - PRIVATE_INTERNET_ACCESS_OPENVPN_ENCRYPTION_PRESET=strong
       - PRIVATE_INTERNET_ACCESS_VPN_PORT_FORWARDING=on
+      - UPDATER_PERIOD=24h
     restart: always
     networks:
       - media
