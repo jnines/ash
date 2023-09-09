@@ -1,16 +1,16 @@
 #!/bin/bash
 dc="/usr/bin/docker compose -f /home/jason/docker/unifi.yml"
-unif="/home/jason/docker/unifi"
-bunif="/home/jason/Data/unifi_backups/unifi.$(date +"%m.%d.%y-%I.%M")"
+unif="/home/jason/docker/unifiApp"
+bunif="/home/jason/Data/unifiApp_backups/unifiApp.$(date +"%m.%d.%y-%I.%M")"
 
 cd /home/jason/docker || exit
-$dc stop unifi &&
+$dc stop unifiApp 
 rsync -Ar "$unif" "$bunif" &&
-$dc start unifi &&
-$dc pull unifi &&
+$dc start unifiApp &&
+$dc pull unifiApp &&
 $dc up -d
 
-mapfile -t oldB < <(/usr/bin/find /home/jason/Data/unifi_backups -maxdepth 1 -mtime +30 -type d)
+mapfile -t oldB < <(/usr/bin/find /home/jason/Data/unifiApp_backups -maxdepth 1 -mtime +30 -type d)
 if [[ -n "${oldB[0]}" ]]; then
     for i in "${oldB[@]}"; do
         /bin/rm -r "${i}"
