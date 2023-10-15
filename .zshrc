@@ -1,9 +1,9 @@
-export PATH="$PATH:$HOME/.cargo/bin"
+# export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:$HOME/.local/bin"
 
 
-export EDITOR='lvim'
+export EDITOR='nvim'
 export KEYTIMEOUT=1
 
 typeset -g -A key

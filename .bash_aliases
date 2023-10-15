@@ -1,18 +1,15 @@
-alias v='lvim'
+alias v='nvim'
 alias sv='sudoedit'
 alias up='sudo apt-get update; sudo apt-get dist-upgrade -y && sudo apt-get autoremove -y && sudo apt-get autoclean -y'
-alias uv='lvim +LvimUpdate +PackerSync +LvimCacheReset'
 alias nano='nano -c'
 alias locate='locate -i'
 alias docker-compose='docker compose'
 alias syncx='$HOME/bin/syncexternal > /dev/null 2>&1 & disown'
 
-alias basha='lvim ~/.bash_aliases'
-alias al='lvim ~/.bash_aliases'
+alias basha='nvim ~/.bash_aliases'
+alias al='nvim ~/.bash_aliases'
 
-alias ls='ls -ah --color=auto --group-directories-first'
-alias ll='ls -alh --color=auto --group-directories-first'
-alias lx='ls -lXBh --color=auto'
+alias ls='ls -Alh --color=auto --group-directories-first'
 
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
