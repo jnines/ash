@@ -1,19 +1,29 @@
 #!/bin/bash
+export TERM=xterm-256color
 vpnip=$(curl -s ash.lan:8000/v1/publicip/ip | sed -e 's/{"public_ip":"//' -e 's/\..*//' )
 stream=$(curl -s -H "accept: application/json"  http://10.10.10.8:32400/status/sessions)
 size=$(jq '.MediaContainer.size' <<< "$stream")
-sTitle=$(jq '.MediaContainer.Metadata[0].grandparentTitle' <<< "$stream")
-title=$(jq '.MediaContainer.Metadata[0].title' <<< "$stream")
+sTitle=$(jq '.MediaContainer.Metadata[0].grandparentTitle' <<< "$stream" | tr -d '"')
+title=$(jq '.MediaContainer.Metadata[0].title' <<< "$stream" | tr -d '"')
 
 if [[ "${size}" == "0" ]]; then
-    echo "Nothing Playing"
-    echo "${vpnip}"
+  echo "$(tput setaf 2) \
+  Nothing Playing
+$(tput setaf 3) \
+${vpnip} \
+$(tput sgr0)"
 elif [[ "${sTitle}" == null ]]; then
-    echo Playing : "${title}" | tr -d '"'
-    echo "${vpnip}"
+    echo "$(tput setaf 1) \
+  Playing : ${title}
+$(tput setaf 3) \
+${vpnip} \
+$(tput sgr0)"
 else
-    echo Playing : "${sTitle}": "${title}" | tr -d '"'
-    echo "${vpnip}"
+    echo "$(tput setaf 1) \
+  Playing : ${sTitle}: ${title}
+$(tput setaf 3)\
+${vpnip} \
+$(tput sgr0)"
 fi
 
 /usr/bin/docker compose version
