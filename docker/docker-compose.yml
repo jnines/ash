@@ -1,5 +1,6 @@
+---
 services:
-#
+  #
   bazarr:
     image: ghcr.io/linuxserver/bazarr:latest
     container_name: bazarr
@@ -19,7 +20,7 @@ services:
     networks:
       - media
 
-#
+  #
   gluetun:
     image: qmcgaw/gluetun
     container_name: gluetun
@@ -30,12 +31,12 @@ services:
       - 8388:8388/tcp # Shadowsocks
       - 8388:8388/udp # Shadowsocks
       - 8000:8000/tcp # Built-in HTTP control server
-      - 9005:7878     # Radarr
-      - 9012:8686     # Lidarr
-      - 9006:9091     # Trans web
-      - 51413:51413   # Trans
-      - 9003:8989     # Sonarr
-      - 9004:9696     # Prowlarr
+      - 9005:7878 # Radarr
+      - 9012:8686 # Lidarr
+      - 9006:9091 # Trans web
+      - 51413:51413 # Trans
+      - 9003:8989 # Sonarr
+      - 9004:9696 # Prowlarr
     volumes:
       - ${DOCK}/gluetun:/gluetun
       - ${DOCK}/gluetun/port:/tmp/gluetun/
@@ -57,7 +58,7 @@ services:
     networks:
       - media
 
-#
+  #
   heimdall:
     image: ghcr.io/linuxserver/heimdall
     container_name: heimdall
@@ -74,7 +75,7 @@ services:
     networks:
       - media
 
-#
+  #
   jellyfin:
     image: ghcr.io/linuxserver/jellyfin
     container_name: jellyfin
@@ -97,7 +98,7 @@ services:
     networks:
       - media
 
-#
+  #
   lidarr:
     image: ghcr.io/linuxserver/lidarr
     container_name: lidarr
@@ -106,7 +107,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - UMASK_SET=022 #optional
+      - UMASK_SET=022 # optional
       - DOCKER_MODS=ghcr.io/gilbn/theme.park:lidarr
       - TP_THEME=plex
     volumes:
@@ -118,7 +119,7 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
-#
+  #
   nginx:
     image: lscr.io/linuxserver/nginx:latest
     container_name: nginx
@@ -135,7 +136,7 @@ services:
     networks:
       - media
 
-#
+  #
   nodeservermon:
     container_name: nodeservermon
     image: ghcr.io/jnines/node-servermon
@@ -150,7 +151,7 @@ services:
       - ${DOCK}/nodeservermon:/config
     restart: unless-stopped
 
-#
+  #
   ombi:
     image: ghcr.io/linuxserver/ombi:development
     container_name: ombi
@@ -168,7 +169,7 @@ services:
     networks:
       - media
 
-#
+  #
   plexms:
     container_name: plexms
     image: plexinc/pms-docker:latest
@@ -183,7 +184,7 @@ services:
       - 3005:3005/tcp
       - 8324:8324/tcp
       - 32469:32469/tcp
-      #~ - 1900:1900/udp
+      # - 1900:1900/udp
       - 32410:32410/udp
       - 32412:32412/udp
       - 32413:32413/udp
@@ -201,7 +202,7 @@ services:
     networks:
       - media
 
-#
+  #
   podgrab:
     image: akhilrex/podgrab
     container_name: podgrab
@@ -210,7 +211,6 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-     # - PASSWORD=password     ## Uncomment to enable basic authentication, username = podgrab
     volumes:
       - ${DOCK}/podgrab:/config
       - ${MEDIA}/Podcasts:/assets
@@ -220,7 +220,7 @@ services:
     networks:
       - media
 
-#
+  #
   prowlarr:
     image: ghcr.io/linuxserver/prowlarr:develop
     container_name: prowlarr
@@ -238,7 +238,7 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
-#
+  #
   radarr:
     image: ghcr.io/linuxserver/radarr
     container_name: radarr
@@ -259,7 +259,7 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
-#
+  #
   sonarr:
     image: ghcr.io/linuxserver/sonarr
     container_name: sonarr
@@ -279,10 +279,10 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
-#
+  #
   transmission:
     image: ghcr.io/linuxserver/transmission
-    #~ image: ghcr.io/linuxserver/transmission:version-3.00-r8
+    # image: ghcr.io/linuxserver/transmission:version-3.00-r8
     container_name: transmission
     network_mode: service:gluetun
     environment:

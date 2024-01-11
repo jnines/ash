@@ -1,4 +1,10 @@
-alias v='nvim'
+v() {
+	if [ -z "$1" ]; then
+		nvim .
+	else
+		nvim "$1"
+	fi
+}
 alias sv='sudoedit'
 alias up='sudo apt-get update; sudo apt-get dist-upgrade -y && sudo apt-get autoremove -y && sudo apt-get autoclean -y && sudo /root/update-check.sh'
 alias nano='nano -c'
@@ -34,7 +40,7 @@ alias dc='cd "$HOME"/docker'
 alias dcup='dc && docker-compose up -d'
 alias dcdown='dc && docker-compose down'
 alias dockp='dc && yes | docker image prune && yes | docker container prune && yes | docker system prune && yes | docker volume prune'
-alias dcupdate='dc && docker-compose pull && docker-compose up -d --quiet-pull && dockp && sleep 1 && vpcon && rustdesk'
+alias dcupdate='dc && docker-compose pull && docker-compose up -d --quiet-pull && dockp && sleep 1 && vpcon'
 alias dcres='dc && docker-compose down && dcupdate'
 
 # Get a list of contiainer
